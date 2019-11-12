@@ -180,7 +180,11 @@ def get_adx(close_list, high_list, low_list):
 def TDX_FILTER(rec_list, n):
     res_list = []
     for i in range(len(rec_list)):
-        if rec_list[i] and True not in res_list[i-n:i]:
+        if i < n:
+            temp_n = i
+        else:
+            temp_n = n
+        if rec_list[i] and True not in res_list[i-temp_n:i]:
             res_list.append(True)
         else:
             res_list.append(False)
