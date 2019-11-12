@@ -175,3 +175,32 @@ def get_adx(close_list, high_list, low_list):
     low_ndarray = np.array(low_list)
     adx = talib.ADX(high_ndarray, low_ndarray, close_ndarray)
     return adx
+
+
+def TDX_FILTER(rec_list, n):
+    res_list = []
+    for i in range(len(rec_list)):
+        if rec_list[i] and True not in res_list[i-n:i]:
+            res_list.append(True)
+        else:
+            res_list.append(False)
+    return res_list
+
+
+def TDX_BACKSET(rec_list, n):
+    res_list = []
+    for i in range(len(rec_list)):
+        if rec_list[i]:
+            if len(res_list) < n:
+                res_list = [True] * (len(res_list)+1)
+            else:
+                res_list[i-n+1:] = [True] * n
+        else:
+            res_list.append(False)
+    return res_list
+
+
+def TDX_BARSLAST(rec_list):
+    for i in range(1, len(rec_list)+1):
+        if rec_list[-i]:
+            return i-1
